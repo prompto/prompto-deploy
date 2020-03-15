@@ -112,9 +112,22 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 	name = "centos-prompto-" + version
 	imageId = ec2.createAMI with instanceId, name and true as waitForAvailability
 	printLine "amiCreated: " + imageId
-	ec2.setAMIPublic with imageId
 	printLine "dropping instance " + instanceId
     ec2.dropInstance instanceId
+	printLine "setAMIPublic: " + imageId
+    ec2.setAMIPublic imageId
+    # copy to Singapore for Zubin
+    for each awsRegion in [ "ap-southeast-1"]:
+        copyAmi with imageId as srcImageId, name, "use-east-1" as fromAwsRegion and awsRegion as toAwsRegion
+
+
+define copyAmi as method receiving Text srcImageId, name, Text fromAwsRegion and Text toAwsRegion doing:
+	printLine "copyAmi: " + srcImageId + " from " + fromAwsRegion + " to " + toAwsRegion
+	ec2 = newAwsEC2 with toAwsRegion as awsRegion
+	dstImageId = ec2.copyAMI with srcImageId as imageId, fromAwsRegion as awsRegion and name
+  	printLine "amiCreated: " + dstImageId
+	printLine "setAMIPublic: " + dstImageId
+    ec2.setAMIPublic with dstImageId as imageId
 
 
 define redirectAndDropInstances as method receiving Document doc doing:

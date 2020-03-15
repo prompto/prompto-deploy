@@ -110,8 +110,9 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 	instanceId = doc.instanceId as Text
 	version = doc.version as Text
 	name = "centos-prompto-" + version
-	amiId = ec2.createAMI with instanceId, name and true as waitForAvailability
-	printLine "amiCreated: " + amiId
+	imageId = ec2.createAMI with instanceId, name and true as waitForAvailability
+	printLine "amiCreated: " + imageId
+	ec2.setAMIPublic with imageId
 	printLine "dropping instance " + instanceId
     ec2.dropInstance instanceId
 

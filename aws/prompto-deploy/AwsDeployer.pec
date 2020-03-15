@@ -111,7 +111,7 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 	version = doc.version as Text
 	name = "centos-prompto-" + version
 	imageId = ec2.createAMI with instanceId, name and true as waitForAvailability
-	printLine "amiCreated: " + imageId
+	printLine "AMI created: " + imageId
 	printLine "dropping instance " + instanceId
     ec2.dropInstance instanceId
 	printLine "setAMIPublic: " + imageId
@@ -124,8 +124,8 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 define copyAmi as method receiving Text srcImageId, name, Text fromAwsRegion and Text toAwsRegion doing:
 	printLine "copyAmi: " + srcImageId + " from " + fromAwsRegion + " to " + toAwsRegion
 	ec2 = newAwsEC2 with toAwsRegion as awsRegion
-	dstImageId = ec2.copyAMI with srcImageId as imageId, fromAwsRegion as awsRegion and name
-  	printLine "amiCreated: " + dstImageId
+	dstImageId = ec2.copyAMI with srcImageId as imageId, fromAwsRegion as awsRegion, name and true as waitForAvailability
+  	printLine "AMI copied: " + dstImageId
 	printLine "setAMIPublic: " + dstImageId
     ec2.setAMIPublic with dstImageId as imageId
 

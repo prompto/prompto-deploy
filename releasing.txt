@@ -1,0 +1,2 @@
+the deployer always fetches the latest scripts from the master branch
+so releasing is only required when aws/prompto/deploy/AwsDeployer.pec changes

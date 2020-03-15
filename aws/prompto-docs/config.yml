@@ -1,0 +1,6 @@
+applicationName: WebSite
+applicationVersion: 0.0.10
+
+http:
+  protocol: http
+  port: 80

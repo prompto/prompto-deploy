@@ -71,3 +71,4 @@ http:
     whiteList:
       - /cloud/*
       - /auth/*
+      - /ec2/*

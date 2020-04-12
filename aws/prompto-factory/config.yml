@@ -41,6 +41,7 @@ addOnURLs:
   - file:///AwsClient/AwsClient.jar
 
 http:
+  publicAddress: eric.prompto.cloud
   protocol: https
   port: 443
   redirectFrom: 80

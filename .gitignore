@@ -2,7 +2,4 @@ logs/
 jdks/
 mongo/
 git-saved/
-victor-config.yml
-sameer-rao-config.yml
-jared-self-config.yml
-milos-kresojevic-config.yml
+/aws/prompto-factory/evaluator-configs/

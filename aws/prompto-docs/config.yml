@@ -1,6 +1,29 @@
+secretKey: &secretKey
+  factory: prompto.security.AwsKMSSecretKeyFactory
+  alias: prompto/seed
+  awsRegion: us-east-1
+
+secret: &secret AQICAHiWGTkxd74dNcn82U2E7Y/aoKsK58VZ26N/OSsr01yfrAGaKPSMtmv7mB9f32G1Epn9AAAAajBoBgkqhkiG9w0BBwagWzBZAgEAMFQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMo2VIeuZWJGxBFgZDAgEQgCdm21syTkfHO+7i+KgrxobSHr7OgoulC47YucABjKpTY9Od6vUGjcU=
+
 applicationName: WebSite
 applicationVersion: 0.0.10
 
 http:
-  protocol: http
-  port: 80
+  publicAddress: eric.prompto.cloud
+  protocol: https
+  port: 443
+  redirectFrom: 80
+  keyStore:
+    provider:
+      factory: prompto.security.FileKeyStoreFactory
+      file: /keystore.jks
+    secretKey:
+      <<: *secretKey
+      secret: *secret
+  trustStore:
+    provider:
+      factory: prompto.security.FileKeyStoreFactory
+      file: /truststore.jks
+    secretKey:
+      <<: *secretKey
+      secret: *secret

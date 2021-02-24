@@ -77,6 +77,8 @@ define deployStuff as method receiving Document doc doing:
     iamRole = ""
     if repoName in <"prompto-deploy", "prompto-factory">:
         iamRole = "deployer"
+    else if repoName = "prompto-docs":
+        iamRole = "server"
     securityGroups = ["default"]
     if repoName = "prompto-factory":
         securityGroups = ["prompto-factory"]
@@ -163,7 +165,7 @@ define getAwsEC2 as method returning AwsEC2 doing:
     if isEc2:
         return newAwsEC2 awsRegion
     else:
-        return newAwsEC2WithLocalCredentials awsRegion
+        return Nothing
 
 
 define updateBashScript as method receiving Text script and Text releaseTag doing:

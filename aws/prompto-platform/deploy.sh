@@ -1,4 +1,7 @@
 #!/bin/bash
+# install missing packages
+yum install -y amazon-efs-utils
+yum install -y nfs-utils
 # download resources
 export DEPLOYER_ROOT=https://raw.githubusercontent.com/prompto/prompto-deploy/master
 mkdir ~/.m2

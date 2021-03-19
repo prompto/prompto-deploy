@@ -4,7 +4,7 @@ export INSTANCE_ID
 PRODUCT_VERSION=$version$
 export PRODUCT_VERSION
 # connect logs file system
-AWS_REGION=$(curl http://169.254.169.254/latest/meta-data/placement/region)
+AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 LOGS_FILESYSTEM_URL=fs-666f46d3.efs.${AWS_REGION}.amazonaws.com
 mkdir -p /mnt/efs/logs
 sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${LOGS_FILESYSTEM_URL}:/ /mnt/efs/logs

@@ -1,4 +1,13 @@
 #!/bin/bash
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+export INSTANCE_ID
+# connect logs file system
+AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+LOGS_FILESYSTEM_URL=fs-6ce4cdd9.efs.${AWS_REGION}.amazonaws.com
+mkdir -p /mnt/efs/logs
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${LOGS_FILESYSTEM_URL}:/ /mnt/efs/logs
+mkdir -p /mnt/efs/logs/deploy/${INSTANCE_ID}
+ln -s /mnt/efs/logs/deploy/${INSTANCE_ID} /logs
 # download latest resources
 export DEPLOYER_ROOT=https://raw.githubusercontent.com/prompto/prompto-deploy/master
 mkdir ~/.m2
@@ -11,5 +20,4 @@ curl $DEPLOYER_ROOT/certificates/prompto-cloud/truststore.jks -o truststore.jks
 # deploy and launch
 python deploy.py Server latest latest
 # notify deployer service
-export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 curl --insecure "https://deploy.prompto.cloud/ec2/installed?instanceId=$INSTANCE_ID&component=prompto-deploy&addressId=eipalloc-d08cfee2"

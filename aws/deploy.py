@@ -59,6 +59,12 @@ def install_mvn(sudo):
         sys.stdout.write("Maven installed successfully!\n")
 
 
+def install_mongo_tools(sudo):
+    sys.stdout.write("Installing mongo shell...\n")
+    os.system(sudo + "yum install -y mongodb-org-tools")
+    sys.stdout.write("Mongo shell installed successfully!\n")
+
+
 def install_aws(version, sudo):
     sys.stdout.write("Installing AwsClient...\n")
     os.system("mvn dependency:get -Dartifact=org.prompto:AwsClient:" + version[1:])
@@ -68,7 +74,6 @@ def install_aws(version, sudo):
     os.system("mvn dependency:copy-dependencies -f " + prefix + ".pom -DoutputDirectory=/AwsClient")
     os.system("cp " + prefix + ".jar /AwsClient/AwsClient.jar")
     sys.stdout.write("AwsClient installed successfully!\n")
-
 
 
 def install_prompto(version):
@@ -100,8 +105,9 @@ def start_server(jarName, version, sudo):
 def install_tools(sudo):
     install_wget(sudo)
     install_mvn(sudo)
-    # jdk already installed by mvn
+    install_mongo_tools(sudo)
     # install_jdk(sudo)
+    # jdk already installed by mvn
     sys.stdout.write("Packages installed successfully!\n")
 
 
@@ -132,11 +138,13 @@ WantedBy=multi-user.target
     service_file.close()
     sys.stdout.write("Service installed successfully!\n")
 
+
 def fetchLatestAwsVersion():
     url = "https://api.github.com/repos/prompto/prompto-platform/releases/latest"
     cnx = urlopen(url)
     doc = json.loads(cnx.read())
     return doc['tag_name']
+
 
 # main script
 if __name__ == '__main__':

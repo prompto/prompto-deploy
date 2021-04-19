@@ -6,6 +6,7 @@ yum install -y nfs-utils
 export DEPLOYER_ROOT=https://raw.githubusercontent.com/prompto/prompto-deploy/master
 mkdir ~/.m2
 curl $DEPLOYER_ROOT/maven/nexus-settings.xml -o ~/.m2/settings.xml
+sudo curl $DEPLOYER_ROOT/mongo/mongodb-org-4.4.repo -o /etc/yum.repos.d/mongodb-org-4.4.repo
 curl $DEPLOYER_ROOT/aws/deploy.py -o deploy.py
 curl $DEPLOYER_ROOT/aws/prepare-ami.py -o prepare-ami.py
 # run deployer

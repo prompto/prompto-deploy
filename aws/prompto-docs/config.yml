@@ -27,13 +27,13 @@ dataStore:
 
 applicationName: WebSite
 applicationVersion: 0.0.10
+serverAboutToStart: start_WebSite
 
 http:
   publicAddress: eric.prompto.cloud
   protocol: https
   port: 443
   redirectFrom: 80
-  serverAboutToStart: start_WebSite
   keyStore:
     provider:
       factory: prompto.security.FileKeyStoreFactory

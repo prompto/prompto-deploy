@@ -5,6 +5,26 @@ secretKey: &secretKey
 
 secret: &secret AQICAHiWGTkxd74dNcn82U2E7Y/aoKsK58VZ26N/OSsr01yfrAGaKPSMtmv7mB9f32G1Epn9AAAAajBoBgkqhkiG9w0BBwagWzBZAgEAMFQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMo2VIeuZWJGxBFgZDAgEQgCdm21syTkfHO+7i+KgrxobSHr7OgoulC47YucABjKpTY9Od6vUGjcU=
 
+mongoStore: &atlasMongoStore
+  factory: prompto.store.mongo.MongoStoreFactory
+  replicaSet:
+    name: Seed-shard-0
+    nodes:
+      - host: Seed-shard-00-00-cp8j5.mongodb.net
+        port: 27017
+      - host: Seed-shard-00-01-cp8j5.mongodb.net
+        port: 27017
+      - host: Seed-shard-00-02-cp8j5.mongodb.net
+        port: 27017
+  user: admin
+  secretKey:
+    <<: *secretKey
+    secret: *secret
+
+dataStore:
+  <<: *atlasMongoStore
+  dbName: PROMPTO-DATA
+
 applicationName: WebSite
 applicationVersion: 0.0.10
 
@@ -13,6 +33,7 @@ http:
   protocol: https
   port: 443
   redirectFrom: 80
+  serverAboutToStart: start_WebSite
   keyStore:
     provider:
       factory: prompto.security.FileKeyStoreFactory

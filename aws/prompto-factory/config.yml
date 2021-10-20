@@ -28,11 +28,13 @@ codeStore:
 dataStore:
   <<: *atlasMongoStore
   dbName: SEED-TOOLS
+  audit: true
 
 target:
   dataStore:
     <<: *atlasMongoStore
     dbName: SEED-DATA
+    audit: true
   portRange:
     minPort: 8080
     maxPort: 9090

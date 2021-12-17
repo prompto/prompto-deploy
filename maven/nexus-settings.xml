@@ -7,12 +7,12 @@
                <repository>
                     <id>Staging</id>
                     <name>Nexus Staging Mirror</name>
-                    <url>https://oss.sonatype.org/content/groups/staging/</url>
+                    <url>https://s01.oss.sonatype.org/content/groups/staging/</url>
                 </repository>
                 <repository>
                     <id>Releases</id>
                     <name>Nexus Releases</name>
-                    <url>https://oss.sonatype.org/service/local/repositories/releases/content/</url>
+                    <url>https://s01.oss.sonatype.org/service/local/repositories/releases/content/</url>
                 </repository>
                 <repository>
                     <id>Central</id>

@@ -11,13 +11,13 @@ def install_wget(sudo):
 
 
 def locate_jdk():
-    jvms_dir = "/usr/java/"
+    jvms_dir = "/usr/lib/jvm/"
     if not os.path.exists(jvms_dir):
         return None
     jvms = os.listdir(jvms_dir)
     if jvms is None or len(jvms)==0:
         return None
-    jdks = fnmatch.filter(jvms, "jdk1.8.0_*")
+    jdks = fnmatch.filter(jvms, "java-11-openjdk-11.*")
     if jdks is None or len(jdks)==0:
         return None
     else:
@@ -34,18 +34,9 @@ def install_jdk(sudo):
         os.system('export JAVA_HOME=' + jdkdir)
         sys.stdout.write("Java SDK already installed, skipping\n")
     else:
-        rpm_file = "jdk-8u202-linux-x64.rpm"
-        if download_jdk_from_oracle:
-            rpm_link = "http://download.oracle.com/otn-pub/java/jdk/8u202-b08/1961070e4c9b4e26a04e7f5a083f551e/" + rpm_file
-            os.system("wget --no-cookies --no-check-certificate --header "
-                      '"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" ' + rpm_link)
-        else:
-            rpm_link = "https://github.com/prompto/prompto-deploy/raw/master/jdks/" + rpm_file
-            os.system("wget --no-cookies --no-check-certificate " + rpm_link)
-        os.system(sudo + "yum localinstall -y " + rpm_file)
+        os.system(sudo + "yum -y install java-11-openjdk-devel")
         jdkdir = locate_jdk()
         os.system(sudo + 'sh -c "echo export JAVA_HOME=' + jdkdir + ' >> /etc/environment"')
-        os.system("rm " + rpm_file)
         sys.stdout.write("Java SDK installed successfully!\n")
 
 
@@ -104,10 +95,9 @@ def start_server(jarName, version, sudo):
 
 def install_tools(sudo):
     install_wget(sudo)
+    install_jdk(sudo)
     install_mvn(sudo)
     install_mongo_tools(sudo)
-    # install_jdk(sudo)
-    # jdk already installed by mvn
     sys.stdout.write("Packages installed successfully!\n")
 
 

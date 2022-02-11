@@ -35,6 +35,7 @@ def install_jdk(sudo):
         sys.stdout.write("Java SDK already installed, skipping\n")
     else:
         os.system(sudo + "yum -y install java-11-openjdk-devel")
+        os.system(sudo + "echo 2 | sudo alternatives - -config java")
         jdkdir = locate_jdk()
         os.system(sudo + 'sh -c "echo export JAVA_HOME=' + jdkdir + ' >> /etc/environment"')
         sys.stdout.write("Java SDK installed successfully!\n")
@@ -95,8 +96,8 @@ def start_server(jarName, version, sudo):
 
 def install_tools(sudo):
     install_wget(sudo)
-    install_jdk(sudo)
     install_mvn(sudo)
+    install_jdk(sudo)
     install_mongo_tools(sudo)
     sys.stdout.write("Packages installed successfully!\n")
 

@@ -35,7 +35,7 @@ def install_jdk(sudo):
         sys.stdout.write("Java SDK already installed, skipping\n")
     else:
         os.system(sudo + "yum -y install java-11-openjdk-devel")
-        os.system(sudo + "echo 2 | sudo alternatives - -config java")
+        os.system(sudo + "echo 2 | sudo alternatives --config java")
         jdkdir = locate_jdk()
         os.system(sudo + 'sh -c "echo export JAVA_HOME=' + jdkdir + ' >> /etc/environment"')
         sys.stdout.write("Java SDK installed successfully!\n")

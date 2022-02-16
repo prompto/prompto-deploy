@@ -17,7 +17,7 @@ def locate_jdk():
     jvms = os.listdir(jvms_dir)
     if jvms is None or len(jvms)==0:
         return None
-    jdks = fnmatch.filter(jvms, "java-11-openjdk-11.*")
+    jdks = fnmatch.filter(jvms, "java-17-openjdk-17.*")
     if jdks is None or len(jdks)==0:
         return None
     else:
@@ -34,7 +34,8 @@ def install_jdk(sudo):
         os.system('export JAVA_HOME=' + jdkdir)
         sys.stdout.write("Java SDK already installed, skipping\n")
     else:
-        os.system(sudo + "yum -y install java-11-openjdk-devel")
+        os.system(sudo + "yum -y install epel-release")
+        os.system(sudo + "yum -y install java-latest-openjdk")
         os.system(sudo + "echo 2 | sudo alternatives --config java")
         jdkdir = locate_jdk()
         os.system(sudo + 'sh -c "echo export JAVA_HOME=' + jdkdir + ' >> /etc/environment"')

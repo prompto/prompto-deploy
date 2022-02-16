@@ -87,7 +87,7 @@ def install_server(jarName, version, sudo):
 
 def start_server(jarName, version, sudo):
     sys.stdout.write("Starting server...\n")
-    cmdLine = sudo + r"java -Dnashorn.args=--no-deprecation-warning -Xmx256m -javaagent:JarLoader-1.0.1.jar -jar " + jarName + "-" + version[1:] + r".jar -yamlConfigFile /config.yml &"
+    cmdLine = sudo + r"java -Xmx256m -javaagent:JarLoader-1.0.1.jar -jar " + jarName + "-" + version[1:] + r".jar -yamlConfigFile /config.yml &"
     sys.stdout.write("Cmd line is: " + cmdLine + "\n")
     os.chdir("/" + version)
     Popen([cmdLine], shell=True)

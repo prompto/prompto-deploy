@@ -11,13 +11,13 @@ def install_wget(sudo):
 
 
 def locate_jdk():
-    jvms_dir = "/usr/lib/jvm/"
+    jvms_dir = "/usr/java/"
     if not os.path.exists(jvms_dir):
         return None
     jvms = os.listdir(jvms_dir)
     if jvms is None or len(jvms)==0:
         return None
-    jdks = fnmatch.filter(jvms, "java-17-openjdk-17.*")
+    jdks = fnmatch.filter(jvms, "jdk-17.*")
     if jdks is None or len(jdks)==0:
         return None
     else:
@@ -34,8 +34,9 @@ def install_jdk(sudo):
         os.system('export JAVA_HOME=' + jdkdir)
         sys.stdout.write("Java SDK already installed, skipping\n")
     else:
-        os.system(sudo + "yum -y install epel-release")
-        os.system(sudo + "yum -y install java-latest-openjdk")
+        os.system(sudo + "wget https://download.oracle.com/java/17/archive/jdk-17.0.2_linux-x64_bin.rpm")
+        os.system(sudo + "yum -y localinstall jdk-17.0.2_linux-x64_bin.rpm")
+        os.system(sudo + "rm -f jdk-17.0.2_linux-x64_bin.rpm")
         os.system(sudo + "echo 2 | sudo alternatives --config java")
         jdkdir = locate_jdk()
         os.system(sudo + 'sh -c "echo export JAVA_HOME=' + jdkdir + ' >> /etc/environment"')
@@ -101,7 +102,6 @@ def install_tools(sudo):
     install_jdk(sudo)
     install_mongo_tools(sudo)
     sys.stdout.write("Packages installed successfully!\n")
-
 
 def install_libs(sudo):
     sys.stdout.write("No library to install!\n")

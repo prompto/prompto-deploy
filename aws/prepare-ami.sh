@@ -10,11 +10,11 @@ echo "gpgcheck=1" >> /etc/yum.repos.d/mongodb-org-4.4.repo
 echo "enabled=1" >> /etc/yum.repos.d/mongodb-org-4.4.repo
 echo "gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc" >> /etc/yum.repos.d/mongodb-org-4.4.repo
 yum install -y mongodb-org-tools
+# maven
+wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+yum install -y apache-maven
 # java
 wget https://download.oracle.com/java/17/archive/jdk-17.0.2_linux-x64_bin.rpm
 yum -y localinstall jdk-17.0.2_linux-x64_bin.rpm
 rm -f jdk-17.0.2_linux-x64_bin.rpm
-export JAVA_HOME=/usr/java/jdk-17.0.2/
-# maven
-wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-yum install -y apache-maven
+echo export JAVA_HOME=/usr/java/jdk-17.0.2/ >> /etc/environment

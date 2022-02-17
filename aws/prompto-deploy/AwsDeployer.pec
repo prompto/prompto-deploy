@@ -30,7 +30,7 @@ define prepareAmi as method receiving Document doc doing:
     releaseTag = getReleaseTag doc
     printLine "repo: " + repoName + " released with releaseTag: " + releaseTag
     ec2 = invoke: getAwsEC2
-    amiName = "prompto-centos-" + releaseTag
+    amiName = "prompto-platform-" + releaseTag
     printLine "AMI name: " + amiName
     script = getBashScript repoName
     script = updateBashScript with script and releaseTag
@@ -55,7 +55,8 @@ define getLatestAmiImageId as method doing:
     printLine "getLatestAmiImageId"
     ec2 = invoke: getAwsEC2
     amis = ec2.listOwnedAMIs
-    amis = sorted descending amis with getAmiVersion as key
+    relevant = amis filtered with ami where ami["Name"].text[1:17] = "prompto-platform-"
+    amis = sorted descending relevant with getAmiVersion as key
     ami = amis[1]
     return ami["imageId"] as Text
 
@@ -111,7 +112,7 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 	ec2 = invoke: getAwsEC2
 	instanceId = doc.instanceId as Text
 	version = doc.version as Text
-	name = "centos-prompto-" + version
+	name = "prompto-platform" + version
 	imageId = ec2.createAMI with instanceId, name and true as waitForAvailability
 	printLine "AMI created: " + imageId
 	printLine "dropping instance " + instanceId

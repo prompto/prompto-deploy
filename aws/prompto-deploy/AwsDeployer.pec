@@ -112,7 +112,7 @@ define createAmiAndDropInstance as method receiving Document doc doing:
 	ec2 = invoke: getAwsEC2
 	instanceId = doc.instanceId as Text
 	version = doc.version as Text
-	name = "prompto-platform" + version
+	name = "prompto-platform-" + version
 	imageId = ec2.createAMI with instanceId, name and true as waitForAvailability
 	printLine "AMI created: " + imageId
 	printLine "dropping instance " + instanceId

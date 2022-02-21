@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo su root
+cd /
 # download resources
 export DEPLOYER_ROOT=https://raw.githubusercontent.com/prompto/prompto-deploy/master
 mkdir ~/.m2

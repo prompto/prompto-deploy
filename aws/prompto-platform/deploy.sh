@@ -1,11 +1,4 @@
 #!/bin/bash
-# for debug purpose
-echo running >> /prepare-ami.log
-echo $(whoami) >> /prepare-ami.log
-echo $(cwd) >> /prepare-ami.log
-# the real script
-sudo su root
-cd /
 source /etc/profile.d/maven.sh
 # download resources
 export DEPLOYER_ROOT=https://raw.githubusercontent.com/prompto/prompto-deploy/master

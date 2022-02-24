@@ -118,7 +118,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/$version$
-ExecStart=java -jar $jarName$-$version$.jar -yamlConfigFile /config.yml
+ExecStart=java -Xmx256m -javaagent:JarLoader-1.0.1.jar -jar $jarName$-$version$.jar -yamlConfigFile /config.yml
 Restart=on-abort
 
 [Install]

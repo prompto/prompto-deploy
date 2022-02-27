@@ -74,17 +74,19 @@ define deployStuff as method receiving Document doc doing:
     script = getBashScript repoName
     script = updateBashScript with script and releaseTag
     imageId = invoke: getLatestAmiImageId
-    printLine "amiId: " + imageId
-    iamRole = ""
+    instanceType = "t2.micro"
+    keyName = "prompto-admin"
+    roleName = ""
     if repoName in <"prompto-deploy", "prompto-factory">:
-        iamRole = "deployer"
+        roleName = "deployer"
     else if repoName = "prompto-docs":
-        iamRole = "server"
-    securityGroups = ["default"]
+        roleName = "server"
+    securityGroupNames = ["default"]
     if repoName = "prompto-factory":
-        securityGroups = ["prompto-factory"]
-    newInstanceId = ec2.runInstance with imageId, "t2.micro" as instanceType,
-        "prompto-admin" as keyName, iamRole as roleName, securityGroups as securityGroupNames and script as userData
+        securityGroupNames = ["prompto-factory"]
+        instanceType = "t2.small"
+    printLine "amiId: " + imageId + ", instanceType: " + instanceType
+    newInstanceId = ec2.runInstance with imageId, instanceType, keyName, roleName, securityGroupNames and script as userData
     sleep 1000
     ec2.setInstanceName with newInstanceId as instanceId and nextName as name
     printLine "instance created with name: " + nextName + " and id: " + newInstanceId

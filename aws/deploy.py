@@ -61,7 +61,7 @@ def install_mongo_tools(sudo):
 
 def install_aws(version, sudo):
     sys.stdout.write("Installing AwsClient...\n")
-    os.system("mvn dependency:get -transitive=false -Dpackaging=pom -Dartifact=org.prompto:AwsClient:" + version[1:])
+    os.system("mvn dependency:get -Dartifact=org.prompto:AwsClient:" + version[1:])
     home = "$HOME" if len(sudo) > 0 else "/root"
     prefix = home + "/.m2/repository/org/prompto/AwsClient/"  + version[1:] + "/AwsClient-"  + version[1:]
     # Prompto Server expects aws jars to be located in /AwsClient
@@ -70,14 +70,20 @@ def install_aws(version, sudo):
     sys.stdout.write("AwsClient installed successfully!\n")
 
 
+def install_prompto(version, sudo):
+    sys.stdout.write("Downloading Prompto server...\n")
+    os.system("mvn dependency:get -Dartifact=org.prompto:Server:" + version[1:])
+    sys.stdout.write("Prompto server downloaded successfully!\n")
+
+
 def install_server(jarName, version, sudo):
-    sys.stdout.write("Installing Prompto server...\n")
-    os.system("mvn dependency:get -transitive=false -Dpackaging=pom -Dartifact=org.prompto:" + jarName + ":" + version[1:])
+    sys.stdout.write("Installing Prompto " + jarName + "...\n")
+    os.system("mvn dependency:get -Dartifact=org.prompto:" + jarName + ":" + version[1:])
     home = "$HOME" if len(sudo) > 0 else "/root"
     prefix = home + "/.m2/repository/org/prompto/" + jarName + "/"  + version[1:] + "/" + jarName + "-"  + version[1:]
     os.system("mvn dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=/" + version + " -f " + prefix + ".pom" )
     os.system("cp " + prefix + ".jar /"  + version + "/")
-    sys.stdout.write("Prompto server installed successfully!\n")
+    sys.stdout.write("Prompto " + jarName + " installed successfully!\n")
 
 
 def start_server(jarName, version, sudo):
@@ -125,7 +131,7 @@ WantedBy=multi-user.target
     sys.stdout.write("Service installed successfully!\n")
 
 
-def fetchLatestAwsVersion():
+def fetchLatestPromptoVersion():
     url = "https://api.github.com/repos/prompto/prompto-platform/releases/latest"
     cnx = urlopen(url)
     doc = json.loads(cnx.read())
@@ -138,16 +144,17 @@ if __name__ == '__main__':
     version = sys.argv[2]
     # special case for scripts
     if version == "latest":
-        version = fetchLatestAwsVersion()
-    awsVersion = sys.argv[3]
-    if awsVersion == "latest":
-        awsVersion = fetchLatestAwsVersion()
+        version = fetchLatestPromptoVersion()
+    promptoVersion = sys.argv[3]
+    if promptoVersion == "latest":
+        promptoVersion = fetchLatestPromptoVersion()
     sudo = ""
     if len(sys.argv) > 4 and sys.argv[4] == "sudo":
         sudo =  r"sudo "
     install_tools(sudo)
     install_libs(sudo)
-    install_aws(awsVersion, sudo)
+    install_aws(promptoVersion, sudo)
+    install_prompto(promptoVersion, sudo)
     install_server(jarName, version, sudo)
     install_service(jarName, version, sudo)
     start_server(jarName, version, sudo)

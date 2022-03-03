@@ -76,8 +76,11 @@ def install_prompto(version, sudo):
     sys.stdout.write("Prompto server downloaded successfully!\n")
 
 
-def install_server(jarName, version, sudo):
+def install_server(jarName, version, promptoVersion, sudo):
     sys.stdout.write("Installing Prompto " + jarName + "...\n")
+    home = "$HOME" if len(sudo) > 0 else "/root"
+    prefix = home + "/.m2/repository/org/prompto/Server/"  + promptoVersion[1:] + "/Server-"  + promptoVersion[1:]
+    os.system("mvn dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=/" + version + " -f " + prefix + ".pom" )
     os.system("mvn dependency:get -Dartifact=org.prompto:" + jarName + ":" + version[1:])
     home = "$HOME" if len(sudo) > 0 else "/root"
     prefix = home + "/.m2/repository/org/prompto/" + jarName + "/"  + version[1:] + "/" + jarName + "-"  + version[1:]
@@ -155,6 +158,6 @@ if __name__ == '__main__':
     install_libs(sudo)
     install_aws(promptoVersion, sudo)
     install_prompto(promptoVersion, sudo)
-    install_server(jarName, version, sudo)
+    install_server(jarName, version, promptoVersion, sudo)
     install_service(jarName, version, sudo)
     start_server(jarName, version, sudo)

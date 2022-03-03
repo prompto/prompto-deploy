@@ -61,27 +61,21 @@ def install_mongo_tools(sudo):
 
 def install_aws(version, sudo):
     sys.stdout.write("Installing AwsClient...\n")
-    os.system("mvn dependency:get -DincludeScope=compile -Dartifact=org.prompto:AwsClient:" + version[1:])
+    os.system("mvn dependency:get -transitive=false -Dpackaging=pom -Dartifact=org.prompto:AwsClient:" + version[1:])
     home = "$HOME" if len(sudo) > 0 else "/root"
     prefix = home + "/.m2/repository/org/prompto/AwsClient/"  + version[1:] + "/AwsClient-"  + version[1:]
     # Prompto Server expects aws jars to be located in /AwsClient
-    os.system("mvn dependency:copy-dependencies -DincludeScope=compile -DoutputDirectory=/AwsClient -f " + prefix + ".pom")
+    os.system("mvn dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=/AwsClient -f " + prefix + ".pom")
     os.system("cp " + prefix + ".jar /AwsClient/AwsClient.jar")
     sys.stdout.write("AwsClient installed successfully!\n")
 
 
-def install_prompto(version):
-    sys.stdout.write("Installing prompto...\n")
-    os.system("mvn dependency:get -DincludeScope=compile -Dartifact=org.prompto:Server:" + version[1:])
-    sys.stdout.write("Prompto installed successfully!\n")
-
-
 def install_server(jarName, version, sudo):
     sys.stdout.write("Installing Prompto server...\n")
-    os.system("mvn dependency:get -DincludeScope=compile -Dartifact=org.prompto:" + jarName + ":" + version[1:])
+    os.system("mvn dependency:get -transitive=false -Dpackaging=pom -Dartifact=org.prompto:" + jarName + ":" + version[1:])
     home = "$HOME" if len(sudo) > 0 else "/root"
     prefix = home + "/.m2/repository/org/prompto/" + jarName + "/"  + version[1:] + "/" + jarName + "-"  + version[1:]
-    os.system("mvn dependency:copy-dependencies -DincludeScope=compile -DoutputDirectory=/" + version + " -f " + prefix + ".pom" )
+    os.system("mvn dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=/" + version + " -f " + prefix + ".pom" )
     os.system("cp " + prefix + ".jar /"  + version + "/")
     sys.stdout.write("Prompto server installed successfully!\n")
 

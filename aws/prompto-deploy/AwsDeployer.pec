@@ -121,8 +121,9 @@ define createAmiAndDropInstance as method receiving Document doc doing:
     ec2.dropInstance instanceId
 	printLine "setAMIPublic: " + imageId
     ec2.setAMIPublic imageId
- 	printLine "copy to Singapore for Zubin and Frankurt for Baiya"
- 	for each awsRegion in [ "ap-southeast-1", "eu-central-1" ]:
+ 	printLine "copy to Paris for Amalthea, Singapore for Zubin and Frankurt for Baiya"
+ 	// for each awsRegion in [ "ap-southeast-1", "eu-central-1" ]:
+ 	for each awsRegion in [ "eu-west-3" ]:
         copyAmi with imageId as srcImageId, name, "us-east-1" as fromAwsRegion and awsRegion as toAwsRegion
 
 

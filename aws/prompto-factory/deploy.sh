@@ -23,4 +23,4 @@ curl $DEPLOYER_ROOT/certificates/prompto-cloud/truststore.jks -o /truststore.jks
 # run deployer
 python /deploy.py CodeFactory ${PRODUCT_VERSION} latest
 # notify deployer service
-curl --insecure  "https://deploy.prompto.cloud/ec2/installed?instanceId=${INSTANCE_ID}&component=prompto-factory&addressId=eipalloc-1f9ad42d"
+curl --insecure  "https://deploy.prompto.cloud/ec2/installed?instanceId=${INSTANCE_ID}&component=prompto-factory&addressId=eipalloc-0c1ca828bb99464f6"

@@ -123,8 +123,8 @@ define createAmiAndDropInstance as method receiving Document doc doing:
     ec2.setAMIPublic imageId
  	printLine "copy to Paris for Amalthea, Singapore for Zubin and Frankurt for Baiya"
  	// for each awsRegion in [ "ap-southeast-1", "eu-central-1" ]:
- 	for each awsRegion in [ "eu-west-3" ]:
-        copyAmi with imageId as srcImageId, name, "us-east-1" as fromAwsRegion and awsRegion as toAwsRegion
+ 	// for each awsRegion in [ "eu-west-3" ]:
+    //    copyAmi with imageId as srcImageId, name, "us-east-1" as fromAwsRegion and awsRegion as toAwsRegion
 
 
 define copyAmi as method receiving Text srcImageId, name, Text fromAwsRegion and Text toAwsRegion doing:
@@ -164,7 +164,7 @@ define isRunningOnEC2 as method doing:
 
 
 define getAwsEC2 as method returning AwsEC2 doing:
-    awsRegion = "us-east-1"
+    awsRegion = "eu-west-3"
     isEc2 = invoke: isRunningOnEC2
     if isEc2:
         return newAwsEC2 awsRegion

@@ -23,4 +23,4 @@ curl $DEPLOYER_ROOT/certificates/prompto-org/truststore.jks -o truststore.jks
 # run deployer
 python deploy.py WebSite $PRODUCT_VERSION latest
 # notify deployer service
-curl --insecure  "https://deploy.prompto.cloud/ec2/installed?instanceId=${INSTANCE_ID}&component=prompto-docs&addressId=eipalloc-63e29051"
+curl --insecure  "https://deploy.prompto.cloud/ec2/installed?instanceId=${INSTANCE_ID}&component=prompto-docs&addressId=eipalloc-05afcae7941044687"

@@ -10,11 +10,11 @@ mongoStore: &atlasMongoStore
   replicaSet:
     name: atlas-12n3js-shard-0
     nodes:
-      - host: cluster0-shard-00-00.cp8j5.mongodb.net:27017
+      - host: cluster0-shard-00-00.cp8j5.mongodb.net
         port: 27017
-      - host: cluster0-shard-00-01.cp8j5.mongodb.net:27017
+      - host: cluster0-shard-00-01.cp8j5.mongodb.net
         port: 27017
-      - host: cluster0-shard-00-02.cp8j5.mongodb.net:27017
+      - host: cluster0-shard-00-02.cp8j5.mongodb.net
         port: 27017
   user: admin
   secretKey:

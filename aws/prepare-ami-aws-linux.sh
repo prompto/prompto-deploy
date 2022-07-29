@@ -17,7 +17,6 @@ echo "export M2_HOME=/opt/maven" >> /etc/profile.d/maven.sh
 echo "export MAVEN_HOME=/opt/maven" >> /etc/profile.d/maven.sh
 echo "export PATH=\${M2_HOME}/bin:\${PATH}" >> /etc/profile.d/maven.sh
 chmod +x /etc/profile.d/maven.sh
-source /etc/profile.d/maven.sh
 # mongo
 echo "[mongodb-org-4.4]" >> /etc/yum.repos.d/mongodb-org-4.4.repo
 echo "name=MongoDB Repository" >> /etc/yum.repos.d/mongodb-org-4.4.repo
